@@ -16,4 +16,12 @@ echo Window: %window%
 echo Hotkey: %hotkey%
 echo Exit on mouse move: %exit_on_mouse_move%
 
-python C:\Users\fian\move_me\mc.py --x %x% --y %y% --d %delay% --w %window% --e %hotkey% --mm %exit_on_mouse_move%
+if (%exit_on_mouse_move%==true) set TRUE=1
+if (%exit_on_mouse_move%==True) set TRUE=1
+
+if defined TRUE (
+    python C:\Users\fian\move_me\mc.py --x %x% --y %y% --d %delay% --w %window% --e %hotkey% --mm
+) 
+else (
+    python C:\Users\fian\move_me\mc.py --x %x% --y %y% --d %delay% --w %window% --e %hotkey%
+)

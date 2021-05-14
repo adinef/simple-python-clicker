@@ -37,9 +37,9 @@ arg_parser.add_argument(
     )
 arg_parser.add_argument(
     '--mouse_info', '--mi', 
-    help='Show mouse info only', 
-    type=bool, 
-    default=False
+    help='Show mouse info only',
+    default=False,
+    action="store_true"
     )
 arg_parser.add_argument(
     '--exit_key', '--e', 
@@ -49,9 +49,9 @@ arg_parser.add_argument(
     )
 arg_parser.add_argument(
     '--exit_on_mouse_move', '--mm', 
-    help='Exit on mouse move', 
-    type=bool, 
-    default=False
+    help='Exit on mouse move',
+    default=False,
+    action="store_true"
     )
 
 args = arg_parser.parse_args()

@@ -1,2 +1,2 @@
 @echo off
-python mc.py --mouse_info true
+python mc.py --mi
