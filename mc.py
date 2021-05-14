@@ -11,12 +11,48 @@ import sys, threading, keyboard, pyautogui, argparse
 # Parsing arguments
 arg_parser = argparse.ArgumentParser()
 
-arg_parser.add_argument('--x', help='X coordinate of mouse', type=int, default=None)
-arg_parser.add_argument('--y', help='Y coordinate of mouse', type=int, default=None)
-arg_parser.add_argument('--delay', help='Delay of click', type=int, default=20)
-arg_parser.add_argument('--window', help='Window title', type=str, default='PL CWX Desktop - Desktop Viewer')
-arg_parser.add_argument('--mouse_info', help='Show mouse info only', type=bool, default=False)
-arg_parser.add_argument('--exit_key', help='Exit key for application to end clicking', type=str, default='ctrl')
+arg_parser.add_argument(
+    '--x', 
+    help='X coordinate of mouse', 
+    type=int, 
+    default=None
+    )
+arg_parser.add_argument(
+    '--y', 
+    help='Y coordinate of mouse', 
+    type=int, 
+    default=None
+    )
+arg_parser.add_argument(
+    '--delay', '--d', 
+    help='Delay of click', 
+    type=int, 
+    default=20
+    )
+arg_parser.add_argument(
+    '--window', '--w', 
+    help='Window title', 
+    type=str, 
+    default='PL CWX Desktop - Desktop Viewer'
+    )
+arg_parser.add_argument(
+    '--mouse_info', '--mi', 
+    help='Show mouse info only', 
+    type=bool, 
+    default=False
+    )
+arg_parser.add_argument(
+    '--exit_key', '--e', 
+    help='Exit key for application to end clicking', 
+    type=str, 
+    default='ctrl'
+    )
+arg_parser.add_argument(
+    '--exit_on_mouse_move', '--mm', 
+    help='Exit on mouse move', 
+    type=bool, 
+    default=False
+    )
 
 args = arg_parser.parse_args()
 
@@ -69,7 +105,14 @@ def main_loop():
         sleep(click_point.delay - time() % click_point.delay)
 
 def breakout_loop():
+    # Sleep for thread to assure that mouse is moved before starting mouse position checking
+    sleep(1)
+    starting_mouse_pos = pyautogui.position()
     while True:
+        if args.exit_on_mouse_move:
+            current_mouse_pos = pyautogui.position()
+            if current_mouse_pos.x != starting_mouse_pos.x or current_mouse_pos.y != starting_mouse_pos.y:
+                break
         if keyboard.is_pressed(args.exit_key):
             print('Exiting...')
             break
