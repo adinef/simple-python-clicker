@@ -57,7 +57,7 @@ def run_mouse_click(click_point):
     # Move to window of concern
     pyautogui.getWindowsWithTitle(args.window)[0].activate()
     # Move mouse to point of click
-    pyautogui.moveTo(click_point.x, click_point.y)
+    pyautogui.moveTo(click_point.x(), click_point.y())
     # Click in coordinates location
     pyautogui.click()
 
