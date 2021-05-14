@@ -38,7 +38,6 @@ arg_parser.add_argument(
 arg_parser.add_argument(
     '--mouse_info', '--mi', 
     help='Show mouse info only',
-    default=False,
     action="store_true"
     )
 arg_parser.add_argument(
@@ -50,7 +49,6 @@ arg_parser.add_argument(
 arg_parser.add_argument(
     '--exit_on_mouse_move', '--mm', 
     help='Exit on mouse move',
-    default=False,
     action="store_true"
     )
 
