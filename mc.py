@@ -71,6 +71,7 @@ def main_loop():
 def breakout_loop():
     while True:
         if keyboard.is_pressed(args.exit_key):
+            print('Exiting...')
             break
 
 # Main loop is specified as Daemon thread to exit when user breaks out by hotkey (default 'ctrl')
