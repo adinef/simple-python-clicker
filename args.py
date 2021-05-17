@@ -49,5 +49,41 @@ __arg_parser.add_argument(
     action="store_true"
     )
 
-def args():
-    return __arg_parser.parse_args()
+__arguments = __arg_parser.parse_args()
+
+
+class Coordinations:
+    def __init__(self, args: dict = None, defined_args: tuple = None):
+        if defined_args is not None:
+            self.coords: tuple = defined_args
+        else:
+            self.coords: tuple = (args.x, args.y)
+
+    def is_defined(self):
+        return self.x() is not None and self.y() is not None
+
+    def x(self):
+        return self.coords[0]
+    
+    def y(self):
+        return self.coords[1]
+
+def is_mouse_info_only():
+    return __arguments.mouse_info
+
+
+def get_coordinates():
+    return Coordinations(__arguments)
+
+
+def get_delay():
+    return __arguments.delay
+
+def get_window_title():
+    return __arguments.window
+
+def exit_on_mouse_move():
+    return __arguments.exit_on_mouse_move
+
+def exit_key():
+    return __arguments.exit_key
