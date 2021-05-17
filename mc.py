@@ -1,5 +1,5 @@
 from time import time, sleep
-import sys, threading, keyboard, pyautogui, argparse
+import sys, threading, keyboard, pyautogui, args
 
 ###----------------------------------------------Instruction-----------------------------------------------------------###
 ### Install dependencies: keyboard, pyautogui (python -m pip install ...)                                              ###
@@ -8,61 +8,18 @@ import sys, threading, keyboard, pyautogui, argparse
 ### Default interval/delay is 20 seconds, can be specified using --delay.                                              ###
 ### To exit click hotkey specified with --exit_key, defaulting to 'ctrl'.                                              ###
 
-# Parsing arguments
-arg_parser = argparse.ArgumentParser()
-
-arg_parser.add_argument(
-    '--x', 
-    help='X coordinate of mouse', 
-    type=int, 
-    default=None
-    )
-arg_parser.add_argument(
-    '--y', 
-    help='Y coordinate of mouse', 
-    type=int, 
-    default=None
-    )
-arg_parser.add_argument(
-    '--delay', '--d', 
-    help='Delay of click', 
-    type=int, 
-    default=20
-    )
-arg_parser.add_argument(
-    '--window', '--w', 
-    help='Window title', 
-    type=str, 
-    default='PL CWX Desktop - Desktop Viewer'
-    )
-arg_parser.add_argument(
-    '--mouse_info', '--mi', 
-    help='Show mouse info only',
-    action="store_true"
-    )
-arg_parser.add_argument(
-    '--exit_key', '--e', 
-    help='Exit key for application to end clicking', 
-    type=str, 
-    default='ctrl'
-    )
-arg_parser.add_argument(
-    '--exit_on_mouse_move', '--mm', 
-    help='Exit on mouse move',
-    action="store_true"
-    )
-
-args = arg_parser.parse_args()
+# Arguments
+configuration = args.args()
 
 # Run mouse input check, incl. coordinates
-if args.mouse_info:
+if configuration.mouse_info:
     pyautogui.mouseinfo.mouseInfo()
     exit()
 
 # Load click coordinates
 def fetch_click_coords():
-    if args.x is not None and args.y is not None:
-        return (args.x, args.y)
+    if configuration.x is not None and configuration.y is not None:
+        return (configuration.x, configuration.y)
     else:
         raise Exception('No coordinates provided!')
 
@@ -81,7 +38,7 @@ class ClickPoint:
 
 # Load click point object based on coordinates and specified delay
 try:
-    click_point = ClickPoint(fetch_click_coords(), args.delay)
+    click_point = ClickPoint(fetch_click_coords(), configuration.delay)
 except Exception as exc:
     print(exc)
     exit()
@@ -89,7 +46,7 @@ except Exception as exc:
 # Mouse click function
 def run_mouse_click(click_point):
     # Move to window of concern
-    pyautogui.getWindowsWithTitle(args.window)[0].activate()
+    pyautogui.getWindowsWithTitle(configuration.window)[0].activate()
     # Move mouse to point of click
     pyautogui.moveTo(click_point.x(), click_point.y())
     # Click in coordinates location
@@ -107,11 +64,11 @@ def breakout_loop():
     sleep(1)
     starting_mouse_pos = pyautogui.position()
     while True:
-        if args.exit_on_mouse_move:
+        if configuration.exit_on_mouse_move:
             current_mouse_pos = pyautogui.position()
             if current_mouse_pos.x != starting_mouse_pos.x or current_mouse_pos.y != starting_mouse_pos.y:
                 break
-        if keyboard.is_pressed(args.exit_key):
+        if keyboard.is_pressed(configuration.exit_key):
             print('Exiting...')
             break
 
