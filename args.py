@@ -26,8 +26,7 @@ __arg_parser.add_argument(
 __arg_parser.add_argument(
     '--window', '--w', 
     help='Window title', 
-    type=str, 
-    default='PL CWX Desktop - Desktop Viewer'
+    type=str
     )
 
 __arg_parser.add_argument(

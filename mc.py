@@ -38,6 +38,7 @@ def run_mouse_click(click_point):
     pyautogui.click()
 
 # Threading loops
+@threads.start_thread
 @threads.daemon_thread
 def main_loop():
     print('Starting auto mouse click...')
@@ -45,6 +46,7 @@ def main_loop():
         run_mouse_click(click_point)
         sleep(click_point.delay - time() % click_point.delay)
 
+@threads.start_thread
 @threads.simple_thread
 def breakout_loop():
     # Sleep for thread to assure that mouse is moved before starting mouse position checking
@@ -62,6 +64,6 @@ def breakout_loop():
             print('Exiting...')
 
 # Main loop is specified as Daemon thread to exit when user breaks out by hotkey (default 'ctrl')
-main_loop().start()
-breakout_loop().start()
+main_loop()
+breakout_loop()
 
